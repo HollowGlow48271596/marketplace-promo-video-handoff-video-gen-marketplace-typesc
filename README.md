@@ -1,8 +1,8 @@
 # Turn a marketplace listing into a promo video handoff
 
-I wanted this to read more like a Next.js route handler and less like a heap of generic SDK glue. This repo takes seller assets, decides whether the listing is actually ready for a short promo clip, uploads the cover image to Infrai with a single `INFRAI_API_KEY`, and returns both the buyer update and the order handoff record your app can persist.
+I wanted this to read like a Next.js route handler instead of a pile of generic SDK plumbing. This repo takes seller assets, decides if the listing is actually ready for a short promo clip, uploads the cover image to Infrai with a single `INFRAI_API_KEY`, and returns both the buyer update and the order handoff record your app can store.
 
-The flow is short, but it matches a real app path:
+The flow is short, and it lines up with a real application path:
 
 1. seller submits listing details and one hero image path
 2. the service validates the body with zod
@@ -35,7 +35,7 @@ That test sends a listing with only one image and expects the service to return 
 
 The entry point is `src/run_marketplace_handoff.ts`. It builds a domain request, calls `prepareMarketplaceVideoHandoff`, and logs the result.
 
-One practical warning: keep the incoming request body in marketplace language first, then map it to Infrai at the edge. That keeps the route readable, and it means the order-state decision is isolated enough to test without dragging transport details into it.
+One practical warning: keep the incoming request body in marketplace terms first, then map it to Infrai at the edge. That keeps the route readable, and it leaves the order-state decision isolated enough to test without pulling transport concerns into the same code path.
 
 ## Environment
 
@@ -55,7 +55,7 @@ The example uses plain REST from Node fetch. No SDK to install, just one key and
 
 ## Before you deploy: Marketplace Promo Video Handoff Video Gen Marketplace Typesc
 
-The code is intentionally kept small. Before you put it in production, here is the checklist that actually matters. The details below apply to Marketplace Promo Video Handoff Video Gen Marketplace Typesc.
+The code is intentionally small. Before you run it in production, here is the checklist that matters. The notes below apply to Marketplace Promo Video Handoff Video Gen Marketplace Typesc.
 
 **Account & key**
 

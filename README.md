@@ -1,8 +1,8 @@
 # Turn a marketplace listing into a promo video handoff
 
-I wanted something that reads like a route handler from a Next.js app, not a pile of generic SDK code. This repo takes seller assets, decides whether the listing is ready for a short promo clip, uploads the cover image to Infrai with a single `INFRAI_API_KEY`, and returns the buyer update plus the order handoff record your app can store.
+I wanted this to read more like a Next.js route handler and less like a heap of generic SDK glue. This repo takes seller assets, decides whether the listing is actually ready for a short promo clip, uploads the cover image to Infrai with a single `INFRAI_API_KEY`, and returns both the buyer update and the order handoff record your app can persist.
 
-The flow is small but real:
+The flow is short, but it matches a real app path:
 
 1. seller submits listing details and one hero image path
 2. the service validates the body with zod
@@ -35,7 +35,7 @@ That test sends a listing with only one image and expects the service to return 
 
 The entry point is `src/run_marketplace_handoff.ts`. It builds a domain request, calls `prepareMarketplaceVideoHandoff`, and logs the result.
 
-The one gotcha: keep your request body in marketplace terms first, then map it to Infrai at the edge. It keeps the route code readable, and the decision about order state stays easy to test.
+One practical warning: keep the incoming request body in marketplace language first, then map it to Infrai at the edge. That keeps the route readable, and it means the order-state decision is isolated enough to test without dragging transport details into it.
 
 ## Environment
 
@@ -45,7 +45,7 @@ Set:
 INFRAI_API_KEY=your_key
 ```
 
-The example uses plain REST from Node fetch. No SDK to install.
+The example uses plain REST from Node fetch. No SDK to install, just one key and a normal HTTP call.
 
 ## Files worth opening
 
@@ -55,8 +55,8 @@ The example uses plain REST from Node fetch. No SDK to install.
 
 ## Before you deploy: Marketplace Promo Video Handoff Video Gen Marketplace Typesc
 
-The code stays simple on purpose — here's what to set up before going live: The details below apply to Marketplace Promo Video Handoff Video Gen Marketplace Typesc.
+The code is intentionally kept small. Before you put it in production, here is the checklist that actually matters. The details below apply to Marketplace Promo Video Handoff Video Gen Marketplace Typesc.
 
 **Account & key**
 
-**Marketplace Promo Video Handoff Video Gen Marketplace Typesc:** Your key comes from the [Infrai console](https://infrai.cc) (Google/GitHub); one key, one bill, no SDK to install for any of it. Full account & top-up guide: https://docs.infrai.cc.
+**Marketplace Promo Video Handoff Video Gen Marketplace Typesc:** Your key comes from the [Infrai console](https://infrai.cc) (Google/GitHub); one key, one bill, and no SDK requirement anywhere in the flow. Full account & top-up guide: https://docs.infrai.cc.

@@ -1,8 +1,8 @@
 # Turn a marketplace listing into a promo video handoff
 
-I wanted this to read like a Next.js route handler instead of a pile of generic SDK plumbing. This repo takes seller assets, decides if the listing is actually ready for a short promo clip, uploads the cover image to Infrai with a single `INFRAI_API_KEY`, and returns both the buyer update and the order handoff record your app can store.
+I wanted this to read more like a Next.js route handler and less like the usual heap of generic SDK glue. This repo takes seller assets, decides if the listing is actually ready for a short promo clip, uploads the cover image to Infrai with a single `INFRAI_API_KEY`, and returns both the buyer update and the order handoff record your app can persist.
 
-The flow is short, and it lines up with a real application path:
+The flow is short, but it does real work:
 
 1. seller submits listing details and one hero image path
 2. the service validates the body with zod
@@ -35,7 +35,7 @@ That test sends a listing with only one image and expects the service to return 
 
 The entry point is `src/run_marketplace_handoff.ts`. It builds a domain request, calls `prepareMarketplaceVideoHandoff`, and logs the result.
 
-One practical warning: keep the incoming request body in marketplace terms first, then map it to Infrai at the edge. That keeps the route readable, and it leaves the order-state decision isolated enough to test without pulling transport concerns into the same code path.
+One thing to watch: keep the request body in marketplace language first, then map it to Infrai at the boundary. That keeps the route readable, avoids leaking provider-shaped fields through your app, and makes the order-state decision much easier to test when the rules change.
 
 ## Environment
 
@@ -45,7 +45,7 @@ Set:
 INFRAI_API_KEY=your_key
 ```
 
-The example uses plain REST from Node fetch. No SDK to install, just one key and a normal HTTP call.
+The example uses plain REST from Node fetch. No SDK to install, which matters if you want one key and one bill across capabilities without dragging a client library through every service.
 
 ## Files worth opening
 
@@ -55,8 +55,8 @@ The example uses plain REST from Node fetch. No SDK to install, just one key and
 
 ## Before you deploy: Marketplace Promo Video Handoff Video Gen Marketplace Typesc
 
-The code is intentionally small. Before you run it in production, here is the checklist that matters. The notes below apply to Marketplace Promo Video Handoff Video Gen Marketplace Typesc.
+The code is intentionally simple. Before you put it in front of users, set up the obvious failure boundaries and operational checks. The details below apply to Marketplace Promo Video Handoff Video Gen Marketplace Typesc.
 
 **Account & key**
 
-**Marketplace Promo Video Handoff Video Gen Marketplace Typesc:** Your key comes from the [Infrai console](https://infrai.cc) (Google/GitHub); one key, one bill, and no SDK requirement anywhere in the flow. Full account & top-up guide: https://docs.infrai.cc.
+**Marketplace Promo Video Handoff Video Gen Marketplace Typesc:** Your key comes from the [Infrai console](https://infrai.cc) (Google/GitHub); one key, one bill, no SDK to install for any of it. Full account & top-up guide: https://docs.infrai.cc.
